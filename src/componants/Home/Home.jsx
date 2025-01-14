@@ -1,3 +1,4 @@
+import CustomerFeedback from "../customer/CustomerFeedback";
 import OfferProduct from "../products/OfferProduct";
 import OurProducts from "../products/OurProducts";
 import Carousel from "../shared/Carusol";
@@ -11,6 +12,7 @@ const Home = () => {
       <Carousel />
       <OfferProduct />
       <OurProducts />
+      <CustomerFeedback />
       <Footer />
     </div>
   );
