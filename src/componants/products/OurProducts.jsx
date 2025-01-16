@@ -59,7 +59,8 @@ const OurProducts = () => {
               className="w-full h-20 lg:h-40 object-cover"
             />
             <div className="p-2 flex justify-between">
-              <h2 className="text-base ">{product.name}</h2>
+              <button className="bg-red-400 p-1 rounded-md">order Now</button>
+
               <p className="text-gray-600 text-sm ">{product.price}</p>
             </div>
           </div>
