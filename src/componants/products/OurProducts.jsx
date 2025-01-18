@@ -1,8 +1,11 @@
+import { Link } from "react-router";
+
 const OurProducts = () => {
   const products = [
     {
       id: 1,
       name: "Wireless ",
+      details: "this is our new product one ",
       price: "$99",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOIBrz_uGeC0jGOIwMoCVhr2LutTBCFOdLqg&s",
@@ -10,6 +13,7 @@ const OurProducts = () => {
     {
       id: 2,
       name: "Smartwatch",
+      details: "this is our new product 2 ",
       price: "$199",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT331bpfOaWQ4HrpIOtM2g8M8N8a83-eh9uTQ&s",
@@ -17,6 +21,7 @@ const OurProducts = () => {
     {
       id: 3,
       name: "Bluetooth ",
+      details: "this is our new product 3 ",
       price: "$49",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsZJB6h1Wfx2EQHSvzZ_C2qyvSUodMadSj6w&s",
@@ -25,6 +30,7 @@ const OurProducts = () => {
       id: 4,
       name: "Gaming ",
       price: "$29",
+      details: "this is our new product 4 ",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr5nb74k6FZiVcAZLzcciYySSF6_wqd-RBDw&s",
     },
@@ -32,12 +38,14 @@ const OurProducts = () => {
       id: 5,
       name: "Laptop ",
       price: "$39",
+      details: "this is our new product 5 ",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8RHRPMQt6Ee3vLQsreHUQcCUSJWqvZfAtVQ&s",
     },
     {
       id: 6,
       name: "Mechanical ",
+      details: "this is our new product 6 ",
       price: "$79",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaJRlBXKMMz413G5Qm2FbgN5MDjtV5tWaliw&s",
@@ -59,7 +67,9 @@ const OurProducts = () => {
               className="w-full h-20 lg:h-40 object-cover"
             />
             <div className="p-2 flex justify-between">
-              <button className="bg-red-400 p-1 rounded-md">order Now</button>
+              <Link to="checkOutPage" state={{ product }}>
+                <button className="bg-red-400 p-1 rounded-md">order Now</button>
+              </Link>
 
               <p className="text-gray-600 text-sm ">{product.price}</p>
             </div>
