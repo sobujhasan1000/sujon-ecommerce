@@ -1,6 +1,10 @@
 import { Link } from "react-router";
+import { useUser } from "../../Context/useUser";
 
 const Navbar = () => {
+  const { user } = useUser();
+  console.log(user);
+
   return (
     <div className="navbar bg-[#cfe9f8]">
       <div className="navbar-start">
@@ -27,28 +31,22 @@ const Navbar = () => {
           >
             <li>
               <Link to="/">
-                <a>home</a>
+                <a>Home</a>
               </Link>
             </li>
-            <li>
-              <Link to="/login">
-                <a>login</a>
-              </Link>
-            </li>
-            {/* <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li> */}
+            {user ? (
+              <li className="text-white">
+                {/* Access user properties safely */}
+
+                <span className="font-bold">{user.name || user.email}</span>
+              </li>
+            ) : (
+              <li>
+                <Link to="/login" className="text-white hover:underline">
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
         <a className="btn btn-ghost text-xl text-[#3d64e6]">Organice Food</a>
@@ -57,30 +55,35 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">
           <li>
             <Link to="/">
-              <a>home</a>
+              <a>Home</a>
             </Link>
           </li>
-          <li>
-            <Link to="/login">
-              <a>login</a>
-            </Link>
-          </li>
-          {/* <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2">
+          {user ? (
+            // If the user is logged in, display their name or email
+            <>
+              <li className="">
+                {" "}
+                <p>{user.name}</p>
+              </li>
+              {user.role === "customer" && (
                 <li>
-                  <a>Submenu 1</a>
+                  <Link to="/my-orders">My Orders</Link>
                 </li>
+              )}
+              {user.role === "adminrefat" && (
                 <li>
-                  <a>Submenu 2</a>
+                  <Link to="/all-orders">All Orders</Link>
                 </li>
-              </ul>
-            </details>
-          </li> */}
-          {/* <li>
-            <a>Item 3</a>
-          </li> */}
+              )}
+            </>
+          ) : (
+            // If the user is not logged in, display the login link
+            <li>
+              <Link to="/login" className="hover:underline">
+                Login
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>
