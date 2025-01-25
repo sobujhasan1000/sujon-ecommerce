@@ -27,7 +27,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
               <Link to="/">
@@ -35,14 +35,31 @@ const Navbar = () => {
               </Link>
             </li>
             {user ? (
-              <li className="text-white">
-                {/* Access user properties safely */}
-
-                <span className="font-bold">{user.name || user.email}</span>
-              </li>
+              // If the user is logged in, display their name or email
+              <>
+                <li className="">
+                  {" "}
+                  <p>{user.name}</p>
+                </li>
+                {user.role === "customer" && (
+                  <li>
+                    <Link to="/my-orders">My Orders</Link>
+                  </li>
+                )}
+                {user.role === "adminrefat" && (
+                  <li>
+                    <Link to="/customerOrder">New Orders</Link>
+                  </li>
+                )}
+                {user.role === "adminrefat" && (
+                  <li>
+                    <Link to="/allDelevary">Delevary Products</Link>
+                  </li>
+                )}
+              </>
             ) : (
               <li>
-                <Link to="/login" className="text-white hover:underline">
+                <Link to="/login" className=" hover:underline">
                   Login
                 </Link>
               </li>
@@ -61,10 +78,6 @@ const Navbar = () => {
           {user ? (
             // If the user is logged in, display their name or email
             <>
-              <li className="">
-                {" "}
-                <p>{user.name}</p>
-              </li>
               {user.role === "customer" && (
                 <li>
                   <Link to="/my-orders">My Orders</Link>
@@ -72,9 +85,18 @@ const Navbar = () => {
               )}
               {user.role === "adminrefat" && (
                 <li>
-                  <Link to="/all-orders">All Orders</Link>
+                  <Link to="/customerOrder">New Orders</Link>
                 </li>
               )}
+              {user.role === "adminrefat" && (
+                <li>
+                  <Link to="/allDelevary">Delevary Products</Link>
+                </li>
+              )}
+              <li className="border-2 rounded-full border-green-400">
+                {" "}
+                <p>{user.name}</p>
+              </li>
             </>
           ) : (
             // If the user is not logged in, display the login link

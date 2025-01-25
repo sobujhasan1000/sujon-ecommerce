@@ -16,7 +16,7 @@ const RegistrationPage = () => {
     try {
       // Replace with your Node.js backend registration endpoint
       const response = await axios.post(
-        "http://localhost:5000/api/register",
+        `${import.meta.env.VITE_url}api/register`,
         data
       );
 

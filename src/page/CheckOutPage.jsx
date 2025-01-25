@@ -1,11 +1,15 @@
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useUser } from "../Context/useUser";
 
 const CheckoutPage = () => {
   const location = useLocation();
   const { product } = location.state; // Access product data from state
+  const { user } = useUser(); // Access user from context
+  const navigate = useNavigate();
 
-  // Initialize react-hook-form
+  // React Hook Form setup
   const {
     register,
     handleSubmit,
@@ -13,20 +17,51 @@ const CheckoutPage = () => {
   } = useForm();
 
   // Handle form submission
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    // Prepare the order data
     const orderData = {
+      email: user?.email || data.email || "guest", // Use user's email, input email, or default
       product: {
         name: product.name,
         price: product.price,
         details: product.details,
         image: product.image,
       },
-      customerDetails: data,
+      customerDetails: {
+        customerName: data.customerName,
+        address: data.address,
+        phoneNumber: data.phoneNumber,
+      },
+      quantity: data.quantity || 1,
     };
 
-    // Log the order data to the console
-    console.log("Order Confirmed:", orderData);
-    alert("Order Confirmed! Check the console for details.");
+    // Validate mandatory fields
+    if (!data.customerName || !data.address || !data.phoneNumber) {
+      return alert("Please fill in all required fields.");
+    }
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_url}api/orders/user`,
+        orderData
+      );
+
+      if (response.data.success) {
+        alert("Order placed successfully!");
+        navigate("/");
+      } else {
+        alert(`Failed: ${response.data.message}`);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+
+      // Show backend error message or fallback message
+      if (error.response?.data?.message) {
+        alert(`Error: ${error.response.data.message}`);
+      } else {
+        alert("Something went wrong while placing the order.");
+      }
+    }
   };
 
   return (
@@ -90,7 +125,7 @@ const CheckoutPage = () => {
                     required: "Phone number is required",
                     pattern: {
                       value: /^[0-9]{8,15}$/,
-                      message: "Phone number must be 10 digits",
+                      message: "Phone number must be 8-15 digits",
                     },
                   })}
                   className="w-full border p-2 rounded-md"
@@ -111,16 +146,10 @@ const CheckoutPage = () => {
                   type="number"
                   id="quantity"
                   min="1"
-                  {...register("quantity", {
-                    required: "Quantity is required",
-                  })}
+                  defaultValue="1"
+                  {...register("quantity")}
                   className="w-full border p-2 rounded-md mt-1"
                 />
-                {errors.quantity && (
-                  <p className="text-red-500 text-sm">
-                    {errors.quantity.message}
-                  </p>
-                )}
               </div>
 
               {/* Confirm Order Button */}

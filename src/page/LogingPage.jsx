@@ -27,7 +27,7 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/login",
+        `${import.meta.env.VITE_url}api/login`,
         formData
       );
       if (response.status === 200) {
