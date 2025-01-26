@@ -8,6 +8,7 @@ const CheckoutPage = () => {
   const { product } = location.state; // Access product data from state
   const { user } = useUser(); // Access user from context
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // React Hook Form setup
   const {
@@ -41,10 +42,7 @@ const CheckoutPage = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_url}api/orders/user`,
-        orderData
-      );
+      const response = await axios.post(`${apiUrl}api/orders/user`, orderData);
 
       if (response.data.success) {
         alert("Order placed successfully!");

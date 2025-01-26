@@ -2,6 +2,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const RegistrationPage = () => {
   const {
     register,
@@ -15,10 +17,7 @@ const RegistrationPage = () => {
     console.log(data);
     try {
       // Replace with your Node.js backend registration endpoint
-      const response = await axios.post(
-        `${import.meta.env.VITE_url}api/register`,
-        data
-      );
+      const response = await axios.post(`${apiUrl}api/register`, data);
 
       if (response.status === 201) {
         alert("Registration successful! Redirecting to login...");

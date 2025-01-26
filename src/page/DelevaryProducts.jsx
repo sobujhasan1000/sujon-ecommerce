@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const DeliveryProducts = () => {
   const [orders, setOrders] = useState([]);
@@ -11,9 +12,7 @@ const DeliveryProducts = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_url}api/admin/orders`
-        );
+        const response = await axios.get(`${apiUrl}api/admin/orders`);
         if (response.data.success) {
           // Filter orders with status === "confirmed"
           const confirmedOrders = response.data.orders.filter(
@@ -39,7 +38,7 @@ const DeliveryProducts = () => {
     setUpdating(true);
     try {
       const response = await axios.patch(
-        `${import.meta.env.VITE_url}api/orders/deliver/${orderId}`
+        `${apiUrl}api/orders/deliver/${orderId}`
       );
       if (response.data.success) {
         // Update the delivery status locally

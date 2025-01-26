@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import { useUser } from "../Context/useUser";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -26,10 +28,7 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_url}api/login`,
-        formData
-      );
+      const response = await axios.post(`${apiUrl}api/login`, formData);
       if (response.status === 200) {
         const { user, token } = response.data;
         setUser(user);

@@ -1,18 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const AdminOrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   // Fetch orders from the backend
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_url}api/admin/orders`
-        );
+        const response = await axios.get(`${apiUrl}api/admin/orders`);
         if (response.data.success) {
           setOrders(response.data.orders);
         } else {
@@ -32,7 +29,7 @@ const AdminOrdersPage = () => {
   const handleConfirmOrder = async (orderId) => {
     try {
       const response = await axios.patch(
-        `${import.meta.env.VITE_url}api/orders/${orderId}/confirm`
+        `${apiUrl}api/orders/${orderId}/confirm`
       );
       if (response.data.success) {
         alert(response.data.message);
@@ -47,7 +44,7 @@ const AdminOrdersPage = () => {
   const handleCancelOrder = async (orderId) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_url}api/orders/${orderId}` // Use DELETE instead of PATCH
+        `${apiUrl}api/orders/${orderId}` // Use DELETE instead of PATCH
       );
 
       if (response.data.success) {
