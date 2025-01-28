@@ -106,6 +106,10 @@ const AdminOrdersPage = () => {
                 {order.quantity || 1}
               </p>
               <p className="text-sm text-gray-600 mb-2">
+                <span className="font-semibold">Total price:</span>{" "}
+                {order.totalPrice || 0}
+              </p>
+              <p className="text-sm text-gray-600 mb-2">
                 <span className="font-semibold">Order Date:</span>{" "}
                 {new Date(order.orderDate).toLocaleString()}
               </p>

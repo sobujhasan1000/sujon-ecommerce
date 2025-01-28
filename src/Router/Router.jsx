@@ -6,6 +6,8 @@ import CheckOutPage from "../page/CheckOutPage";
 import RegistrationPage from "../page/RegistationPage";
 import CustomerOrder from "../page/CustomerOrder";
 import DelevaryProducts from "../page/DelevaryProducts";
+import MyOrders from "../page/MyOrders";
+import ProductPost from "../page/ProductPost";
 
 const router = createBrowserRouter([
   {
@@ -29,12 +31,20 @@ const router = createBrowserRouter([
         element: <CheckOutPage />,
       },
       {
+        path: "/myorders",
+        element: <MyOrders />,
+      },
+      {
         path: "/customerOrder",
         element: <CustomerOrder />,
       },
       {
         path: "/allDelevary",
         element: <DelevaryProducts />,
+      },
+      {
+        path: "/postProduct",
+        element: <ProductPost />,
       },
     ],
   },

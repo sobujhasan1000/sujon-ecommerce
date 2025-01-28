@@ -66,57 +66,57 @@ const DeliveryProducts = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-center">
       <h1 className="text-xl font-bold mb-4">Delivery Table</h1>
       <div className="overflow-x-auto">
         <table className="table-auto border-collapse border border-gray-300 lg:w-full">
           <thead>
             <tr className="bg-gray-200">
-              <th className="border border-gray-300 px-4 py-2">S. No</th>
-              <th className="border border-gray-300 px-4 py-2">Product Name</th>
-              <th className="border border-gray-300 px-4 py-2">
-                Customer Name
-              </th>
-              <th className="border border-gray-300 px-4 py-2">Address</th>
-              <th className="border border-gray-300 px-4 py-2">Phone</th>
-              <th className="border border-gray-300 px-4 py-2">Quantity</th>
-              <th className="border border-gray-300 px-4 py-2">
+              <th className="border border-gray-300 px-2 py-2">S. No</th>
+              <th className="border border-gray-300 px-2 py-2">Product</th>
+              <th className="border border-gray-300 px-2 py-2">Customer</th>
+              <th className="border border-gray-300 px-2 py-2">Address</th>
+              <th className="border border-gray-300 px-2 py-2">Phone</th>
+              <th className="border border-gray-300 px-2 py-2">Quantity</th>
+              <th className="border border-gray-300 px-2 py-2">Total Price</th>
+              <th className="border border-gray-300 px-2 py-2">
                 Delivery Status
               </th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order, index) => (
-              <tr key={order._id} className="text-center">
-                <td className="border border-gray-300 px-4 py-2">
-                  {index + 1}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
+              <tr key={order._id} className="text-center text-sm">
+                <td className="border border-gray-300 p-2">{index + 1}</td>
+                <td className="border border-gray-300 p-2 ">
                   {order.product.name}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-gray-300 p-2 ">
                   {order.customerDetails.customerName}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-gray-300 p-2 ">
                   {order.customerDetails.address}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-gray-300 p-2 ">
                   {order.customerDetails.phoneNumber}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-gray-300 px-2 ">
                   {order.quantity}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-gray-300 p-2 ">
+                  {order.totalPrice || 0}
+                </td>
+                <td className="border border-gray-300 p-2">
                   {order.deliveryStatus ? (
                     <button
-                      className="bg-green-400 text-white px-4 py-1 rounded cursor-not-allowed"
+                      className="bg-green-400 text-white px-2 py-1 rounded cursor-not-allowed"
                       disabled
                     >
                       Delivered
                     </button>
                   ) : (
                     <button
-                      className={`bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 ${
+                      className={`bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 ${
                         updating && "opacity-50 cursor-not-allowed"
                       }`}
                       onClick={() => handleDeliveryOk(order._id)}

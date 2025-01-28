@@ -3,8 +3,6 @@ import { useUser } from "../../Context/useUser";
 
 const Navbar = () => {
   const { user } = useUser();
-  console.log(user);
-
   return (
     <div className="navbar bg-[#cfe9f8]">
       <div className="navbar-start">
@@ -43,7 +41,7 @@ const Navbar = () => {
                 </li>
                 {user.role === "customer" && (
                   <li>
-                    <Link to="/my-orders">My Orders</Link>
+                    <Link to="/myorders">My Orders</Link>
                   </li>
                 )}
                 {user.role === "adminrefat" && (
@@ -54,6 +52,11 @@ const Navbar = () => {
                 {user.role === "adminrefat" && (
                   <li>
                     <Link to="/allDelevary">Delevary Products</Link>
+                  </li>
+                )}
+                {user.role === "adminrefat" && (
+                  <li>
+                    <Link to="/postProduct"> Product post</Link>
                   </li>
                 )}
               </>
@@ -80,7 +83,7 @@ const Navbar = () => {
             <>
               {user.role === "customer" && (
                 <li>
-                  <Link to="/my-orders">My Orders</Link>
+                  <Link to="/myorders">My Orders</Link>
                 </li>
               )}
               {user.role === "adminrefat" && (
@@ -91,6 +94,11 @@ const Navbar = () => {
               {user.role === "adminrefat" && (
                 <li>
                   <Link to="/allDelevary">Delevary Products</Link>
+                </li>
+              )}
+              {user.role === "adminrefat" && (
+                <li>
+                  <Link to="/postProduct"> Product post</Link>
                 </li>
               )}
               <li className="border-2 rounded-full border-green-400">

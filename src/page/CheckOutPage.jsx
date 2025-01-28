@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useState } from "react";
 import { useUser } from "../Context/useUser";
 
 const CheckoutPage = () => {
@@ -10,12 +11,27 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
 
+  const [quantity, setQuantity] = useState(1); // State for quantity
+
   // React Hook Form setup
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  // Calculate total price
+  const totalPrice = product.price * quantity;
+
+  // Handle quantity increment
+  const incrementQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  // Handle quantity decrement
+  const decrementQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
 
   // Handle form submission
   const onSubmit = async (data) => {
@@ -33,7 +49,8 @@ const CheckoutPage = () => {
         address: data.address,
         phoneNumber: data.phoneNumber,
       },
-      quantity: data.quantity || 1,
+      quantity: quantity,
+      totalPrice: totalPrice, // Include total price in order data
     };
 
     // Validate mandatory fields
@@ -76,7 +93,7 @@ const CheckoutPage = () => {
             />
             <h2 className="text-xl font-semibold mt-4">{product.name}</h2>
             <p className="text-gray-600 text-sm mt-2">{product.details}</p>
-            <p className="text-lg font-bold mt-4">{product.price}</p>
+            <p className="text-lg font-bold mt-4">Price: {product.price}</p>
           </div>
 
           {/* Customer Details Form */}
@@ -134,21 +151,32 @@ const CheckoutPage = () => {
                   </p>
                 )}
               </div>
-
-              {/* Quantity */}
-              <div>
-                <label htmlFor="quantity" className="text-sm">
-                  Quantity:
-                </label>
-                <input
-                  type="number"
-                  id="quantity"
-                  min="1"
-                  defaultValue="1"
-                  {...register("quantity")}
-                  className="w-full border p-2 rounded-md mt-1"
-                />
+              {/* Quantity Section */}
+              <div className="flex items-center space-x-4 mt-4">
+                <p className="text-lg p-2 font-semibold">Quantity</p>
+                <button
+                  type="button"
+                  onClick={decrementQuantity}
+                  className="bg-gray-200 px-2 py-1 rounded-md font-extrabold text-2xl"
+                >
+                  -
+                </button>
+                <span className="text-lg font-bold">{quantity}</span>
+                <button
+                  type="button"
+                  onClick={incrementQuantity}
+                  className="bg-gray-200 px-2 py-1 rounded-md font-extrabold text-2xl"
+                >
+                  +
+                </button>
               </div>
+              <p className="text-lg font-bold mt-4">
+                Total Price: {totalPrice}
+              </p>
+              <p className="text-red-400">
+                {" "}
+                n.t also add extra taka for delivery
+              </p>
 
               {/* Confirm Order Button */}
               <div>

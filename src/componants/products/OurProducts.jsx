@@ -1,56 +1,52 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { useUser } from "../../Context/useUser";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const OurProducts = () => {
-  const products = [
-    {
-      id: 1,
-      name: "Wireless ",
-      details: "this is our new product one ",
-      price: "$99",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOIBrz_uGeC0jGOIwMoCVhr2LutTBCFOdLqg&s",
-    },
-    {
-      id: 2,
-      name: "Smartwatch",
-      details: "this is our new product 2 ",
-      price: "$199",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT331bpfOaWQ4HrpIOtM2g8M8N8a83-eh9uTQ&s",
-    },
-    {
-      id: 3,
-      name: "Bluetooth ",
-      details: "this is our new product 3 ",
-      price: "$49",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsZJB6h1Wfx2EQHSvzZ_C2qyvSUodMadSj6w&s",
-    },
-    {
-      id: 4,
-      name: "Gaming ",
-      price: "$29",
-      details: "this is our new product 4 ",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr5nb74k6FZiVcAZLzcciYySSF6_wqd-RBDw&s",
-    },
-    {
-      id: 5,
-      name: "Laptop ",
-      price: "$39",
-      details: "this is our new product 5 ",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8RHRPMQt6Ee3vLQsreHUQcCUSJWqvZfAtVQ&s",
-    },
-    {
-      id: 6,
-      name: "Mechanical ",
-      details: "this is our new product 6 ",
-      price: "$79",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaJRlBXKMMz413G5Qm2FbgN5MDjtV5tWaliw&s",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const { user } = useUser();
+
+  useEffect(() => {
+    // Fetch products from API
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}api/products`);
+        setProducts(response.data); // Store the fetched products in state
+      } catch (err) {
+        setError("Failed to load products", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts(); // Call the fetch function when the component mounts
+  }, []); // Empty dependency array ensures this effect runs only once after the component mounts
+
+  const handleDelete = async (productId) => {
+    try {
+      await axios.delete(`${apiUrl}api/products/${productId}`);
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== productId)
+      );
+    } catch (err) {
+      console.error("Failed to delete product:", err);
+      alert("Failed to delete product. Please try again.");
+    }
+  };
+
+  if (loading) {
+    return <div>Loading products...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -58,20 +54,33 @@ const OurProducts = () => {
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {products.map((product) => (
           <div
-            key={product.id}
+            key={product._id}
             className="bg-white shadow-lg rounded-lg overflow-hidden"
           >
             <img
-              src={product.image}
+              src={product.image} // Ensure that the image URL is correct in your backend response
               alt={product.name}
               className="w-full h-20 lg:h-40 object-cover"
             />
+            <div>
+              <p className="text-lg font-semibold p-2">{product.name}</p>
+            </div>
             <div className="p-2 flex justify-between">
-              <Link to="checkOutPage" state={{ product }}>
-                <button className="bg-red-400 p-1 rounded-md">order Now</button>
-              </Link>
-
-              <p className="text-gray-600 text-sm ">{product.price}</p>
+              {user?.role === "adminrefat" ? (
+                <button
+                  onClick={() => handleDelete(product._id)}
+                  className="bg-red-500 text-white p-1 rounded-md"
+                >
+                  Delete
+                </button>
+              ) : (
+                <Link to="/checkOutPage" state={{ product }}>
+                  <button className="bg-red-400 p-1 rounded-md">
+                    Order Now
+                  </button>
+                </Link>
+              )}
+              <p className="text-gray-600 text-sm">${product.price}</p>
             </div>
           </div>
         ))}
